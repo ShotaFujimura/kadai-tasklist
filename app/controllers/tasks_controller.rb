@@ -26,7 +26,7 @@ class TasksController < ApplicationController
         else
             @tasks = current_user.tasks.order(id: :desc).page(params[:page])
             flash.now[:danger] = 'Taskが投稿されませんでした'
-            render root_url
+            render 'tasks/index'
         end 
     end 
     
@@ -36,7 +36,7 @@ class TasksController < ApplicationController
     def update
         if @task.update(task_params)
             flash[:success] = 'Taskは正常に更新されました'
-            redirect_to @task
+            redirect_to root_path
         else
             flash.now[:danger] = 'Taskは更新されませんでした'
             render :edit
