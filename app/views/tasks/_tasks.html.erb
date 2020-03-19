@@ -1,22 +1,27 @@
-<ul class="list-unstyled">
-  <% tasks.each do |task| %>
-    <li class="media mb-3">
-      <img class="mr-2 rounded" src="<%= gravatar_url(task.user, { size: 50 }) %>" alt="">
-      <div class="media-body">
-        <div>
-          <span class="text-muted">posted at <%= task.created_at %></span>
-        </div>
-        <div>
-          <p>Status: <%= task.status %></p>
-          <p>Task: <%= task.content %></p>
-        </div>
-        <% if current_user == task.user %>
-          <%= link_to "Edit", edit_task_path(task.id), class: 'btn btn-primary btn-sm' %>
-          <%= link_to "Delete", task, method: :delete, data: { confirm: "You sure?" },class: 'btn btn-danger btn-sm' %>
-        <% end %>  
-          
-      </div>
-    </li>
-  <% end %>
-  <%= paginate tasks %>
-</ul>
+<h1>Tasklist</h1>
+
+<% if @tasks.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Status/th>
+        <th>Task</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tasks.each do |task| %>
+        <tr>
+          <td><%= link_to task.id, task %></td>
+          <td><%= task.status %></td>
+          <td><%= task.content %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div>
+    <%= paginate @tasks %>
+  </div>
+<% end %>
+
+<%= link_to 'Post a new task', new_task_path, class: "btn btn-primary" %>

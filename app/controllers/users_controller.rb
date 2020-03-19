@@ -1,9 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index]
-  
-  def index
-    @users = User.order(id: :desc).page(params[:page]).per(25)
-  end
+  before_action :require_user_logged_in, only: [:index, :show]
 
   def new
     @user = User.new
@@ -13,10 +9,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     
     if @user.save
-      flash[:success]='ユーザーを登録しました'
+      flash[:success]='You were registered'
       redirect_to tasks_path
     else
-      flash.now[:danger]='ユーザーの登録に失敗しました'
+      flash.now[:danger]='failed to register'
       render :new
     end 
     
